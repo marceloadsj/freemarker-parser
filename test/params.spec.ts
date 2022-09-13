@@ -564,7 +564,6 @@ describe('params parser', () => {
       operator: Operators.EXCLAM,
       prefix: false,
     };
-    console.log(result);
     expect(result).toEqual(expected);
   });
 

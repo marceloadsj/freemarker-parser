@@ -265,11 +265,14 @@ export class ParamsParser extends AbstractTokenizer {
     let left;
     let right;
     let i;
+    let fallbackIndex;
 
     // First, try to get the leftmost thing
     // Then, get the operator following the leftmost thing
     left = this.parseToken();
     biop = this.parseBinaryOp();
+
+    fallbackIndex = this.index;
     right = this.parseToken();
 
     // If the operator is a unary operator, create a unary expression with the leftmost thing
@@ -282,11 +285,14 @@ export class ParamsParser extends AbstractTokenizer {
     ) {
       left = createUnaryExpression(biop, left, false);
       biop = this.parseBinaryOp();
+
+      fallbackIndex = this.index;
       right = this.parseToken();
     }
 
     // If there wasn't a binary operator, just return the leftmost node
     if (!biop) {
+      this.index = fallbackIndex;
       return left;
     }
 

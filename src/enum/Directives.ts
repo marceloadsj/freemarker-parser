@@ -22,15 +22,16 @@ export enum Directives {
   ftl = NodeTypes.Ftl,
   global = NodeTypes.Global,
   import = NodeTypes.Import,
-  // items = NodeTypes.Items, // TODO: disabled
+  items = NodeTypes.Items, // TODO: disabled
   local = NodeTypes.Local,
   lt = NodeTypes.Lt,
-  // macro = NodeTypes.Macro, // TODO: disabled
+  macro = NodeTypes.Macro, // TODO: disabled
+  outputFormat = NodeTypes.OutputFormat,
   outputformat = NodeTypes.OutputFormat,
-  // nested = NodeTypes.Nested, // TODO: unsupported
+  nested = NodeTypes.Nested, // TODO: unsupported
   nt = NodeTypes.Nt,
   recover = NodeTypes.Recover,
-  // recurse = NodeTypes.Recurse, // TODO: unsupported
+  recurse = NodeTypes.Recurse, // TODO: unsupported
   return = NodeTypes.Return,
   rt = NodeTypes.Rt,
   setting = NodeTypes.Setting,
@@ -40,7 +41,7 @@ export enum Directives {
   default = NodeTypes.SwitchDefault,
   break = NodeTypes.Break,
   t = NodeTypes.T,
-  // visit = NodeTypes.Visit, // TODO: unsupported
+  visit = NodeTypes.Visit, // TODO: unsupported
   noparse = NodeTypes.Text,
   noParse = NodeTypes.Text,
 }

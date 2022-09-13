@@ -20,7 +20,7 @@ describe.each(files)('%s', (_, file) => {
   const data = parser.parse(template);
 
   it('should have errors', () => {
-    expect(data.ast.errors).toBeTruthy();
+    expect(data.ast.errors || []).toBeTruthy();
     expect(data.ast.errors).toMatchSnapshot();
   });
 

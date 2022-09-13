@@ -4261,9 +4261,21 @@ ProgramNode {
 ",
           "type": "Text",
         },
-      ],
-      "end": 26,
-      "fallback": Array [
+        RecoverNode {
+          "end": 73,
+          "loc": Object {
+            "end": Object {
+              "column": 11,
+              "line": 4,
+            },
+            "start": Object {
+              "column": 1,
+              "line": 4,
+            },
+          },
+          "start": 63,
+          "type": "Recover",
+        },
         TextNode {
           "end": 120,
           "loc": Object {
@@ -4283,6 +4295,7 @@ ProgramNode {
           "type": "Text",
         },
       ],
+      "end": 26,
       "loc": Object {
         "end": Object {
           "column": 11,
@@ -5205,7 +5218,7 @@ ProgramNode {
         },
       ],
       "start": 0,
-      "type": "Assign",
+      "type": "Ftl",
     },
     TextNode {
       "end": 29,
@@ -12205,27 +12218,21 @@ ProgramNode {
         },
       },
       "params": Object {
-        "body": Array [
-          Object {
-            "arguments": Array [],
-            "callee": Object {
-              "name": "avg",
-              "type": "Identifier",
-            },
-            "type": "CallExpression",
+        "left": Object {
+          "arguments": Array [],
+          "callee": Object {
+            "name": "avg",
+            "type": "Identifier",
           },
-          Object {
-            "argument": Object {
-              "raw": "\\"N/A\\"",
-              "type": "Literal",
-              "value": "N/A",
-            },
-            "operator": "!",
-            "prefix": true,
-            "type": "UnaryExpression",
-          },
-        ],
-        "type": "Compound",
+          "type": "CallExpression",
+        },
+        "operator": "!",
+        "right": Object {
+          "raw": "\\"N/A\\"",
+          "type": "Literal",
+          "value": "N/A",
+        },
+        "type": "BinaryExpression",
       },
       "start": 222,
       "type": "Interpolation",
@@ -13243,23 +13250,17 @@ ProgramNode {
             },
           },
           "params": Object {
-            "body": Array [
-              Object {
-                "name": "missing",
-                "type": "Identifier",
-              },
-              Object {
-                "argument": Object {
-                  "raw": "'d'",
-                  "type": "Literal",
-                  "value": "d",
-                },
-                "operator": "!",
-                "prefix": true,
-                "type": "UnaryExpression",
-              },
-            ],
-            "type": "Compound",
+            "left": Object {
+              "name": "missing",
+              "type": "Identifier",
+            },
+            "operator": "!",
+            "right": Object {
+              "raw": "'d'",
+              "type": "Literal",
+              "value": "d",
+            },
+            "type": "BinaryExpression",
           },
           "start": 84,
           "type": "Interpolation",
@@ -14691,23 +14692,17 @@ ProgramNode {
             },
           },
           "params": Object {
-            "body": Array [
-              Object {
-                "name": "missing",
-                "type": "Identifier",
-              },
-              Object {
-                "argument": Object {
-                  "raw": "'d'",
-                  "type": "Literal",
-                  "value": "d",
-                },
-                "operator": "!",
-                "prefix": true,
-                "type": "UnaryExpression",
-              },
-            ],
-            "type": "Compound",
+            "left": Object {
+              "name": "missing",
+              "type": "Identifier",
+            },
+            "operator": "!",
+            "right": Object {
+              "raw": "'d'",
+              "type": "Literal",
+              "value": "d",
+            },
+            "type": "BinaryExpression",
           },
           "start": 817,
           "type": "Interpolation",

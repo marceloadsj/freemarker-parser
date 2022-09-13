@@ -2617,6 +2617,21 @@ Array [
 exports[`recover.ftl should have correct ast 1`] = `
 ProgramNode {
   "body": Array [
+    RecoverNode {
+      "end": 10,
+      "loc": Object {
+        "end": Object {
+          "column": 11,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 1,
+          "line": 1,
+        },
+      },
+      "start": 0,
+      "type": "Recover",
+    },
     TextNode {
       "end": 11,
       "loc": Object {
@@ -2636,23 +2651,6 @@ ProgramNode {
     },
   ],
   "end": 10,
-  "errors": Array [
-    ParseError {
-      "end": 10,
-      "loc": Object {
-        "end": Object {
-          "column": 11,
-          "line": 1,
-        },
-        "start": Object {
-          "column": 1,
-          "line": 1,
-        },
-      },
-      "message": "Error while creating node 'Recover' inside 'Program'",
-      "start": 0,
-    },
-  ],
   "loc": Object {
     "end": Object {
       "column": 11,
@@ -2692,25 +2690,9 @@ Array [
 ]
 `;
 
-exports[`recover.ftl should have errors 1`] = `
-Array [
-  ParseError {
-    "end": 10,
-    "loc": Object {
-      "end": Object {
-        "column": 11,
-        "line": 1,
-      },
-      "start": Object {
-        "column": 1,
-        "line": 1,
-      },
-    },
-    "message": "Error while creating node 'Recover' inside 'Program'",
-    "start": 0,
-  },
-]
-`;
+exports[`recover.ftl should have errors 1`] = `undefined`;
+
+exports[`recover.ftl should have no errors 1`] = ``;
 
 exports[`setting.ftl should have correct ast 1`] = `
 ProgramNode {
