@@ -1,8 +1,11 @@
-# freemarker-parser
+# freemarker-parser-next
 
-[![Codecov](https://img.shields.io/codecov/c/github/armano2/freemarker-parser.svg)](https://codecov.io/gh/armano2/freemarker-parser/tree/master)
-[![License](https://img.shields.io/github/license/armano2/freemarker-parser.svg)](https://github.com/armano2/freemarker-parser/blob/master/LICENSE.md)
-[![npm](https://img.shields.io/npm/v/freemarker-parser.svg)](https://www.npmjs.com/package/freemarker-parser)
+### Fork from freemarker-parser made by Armano (https://github.com/armano2)
+
+<!-- [![Codecov](https://img.shields.io/codecov/c/github/armano2/freemarker-parser.svg)](https://codecov.io/gh/armano2/freemarker-parser/tree/master) -->
+
+[![License](https://img.shields.io/github/license/marceloadsj/freemarker-parser.svg)](https://github.com/marceloadsj/freemarker-parser/blob/master/LICENSE.md)
+[![npm](https://img.shields.io/npm/v/freemarker-parser-next.svg)](https://www.npmjs.com/package/freemarker-parser-next)
 
 Freemarker Parser is a javascript implementation of the Freemarker (https://freemarker.apache.org).
 

@@ -169,11 +169,20 @@ export class ParamsParser extends AbstractTokenizer {
     super.init(template);
   }
 
-  public parseExpressions(): AllParamTypes {
+  public parseExpressions(
+    closeCharCode?: ECharCodes.CloseBracket,
+  ): AllParamTypes {
     let node;
     const nodes = [];
 
     while (this.index < this.length) {
+      if (
+        closeCharCode !== undefined &&
+        this.charCodeAt(this.index) === closeCharCode
+      ) {
+        break;
+      }
+
       // Try to gobble each expression individually
       node = this.parseExpression();
       if (node) {
@@ -261,20 +270,31 @@ export class ParamsParser extends AbstractTokenizer {
     // Then, get the operator following the leftmost thing
     left = this.parseToken();
     biop = this.parseBinaryOp();
+    right = this.parseToken();
 
     // If the operator is a unary operator, create a unary expression with the leftmost thing
     if (
       biop === Operators.PLUS_PLUS ||
       biop === Operators.MINUS_MINUS ||
-      biop === Operators.EXISTS
+      biop === Operators.EXISTS ||
+      // Some expressions are, sometimes unary, sometimes binary like dot dot
+      ((biop === Operators.DOT_DOT || biop === Operators.EXCLAM) && !right)
     ) {
       left = createUnaryExpression(biop, left, false);
       biop = this.parseBinaryOp();
+      right = this.parseToken();
     }
 
     // If there wasn't a binary operator, just return the leftmost node
     if (!biop) {
       return left;
+    }
+
+    if (!right || !left) {
+      throw new ParseError(`Expected expression after ${biop}`, {
+        start: this.index,
+        end: this.index,
+      });
     }
 
     // Otherwise, we need to start a stack to properly place the binary operations in their
@@ -284,13 +304,6 @@ export class ParamsParser extends AbstractTokenizer {
       prec: binaryPrecedence(biop),
     };
 
-    right = this.parseToken();
-    if (!right || !left) {
-      throw new ParseError(`Expected expression after ${biop}`, {
-        start: this.index,
-        end: this.index,
-      });
-    }
     const stack: Array<AllParamTypes | BiopInfo> = [left, biopInfo, right];
 
     /**
@@ -300,6 +313,22 @@ export class ParamsParser extends AbstractTokenizer {
     // eslint-disable-next-line no-constant-condition
     while (true) {
       biop = this.parseBinaryOp();
+
+      // If operation is unary, it is related to the rightmost item of the stack
+      if (
+        biop === Operators.PLUS_PLUS ||
+        biop === Operators.MINUS_MINUS ||
+        biop === Operators.EXISTS
+      ) {
+        right = stack.pop();
+
+        if (isAllParamTypes(right)) {
+          stack.push(createUnaryExpression(biop, right, false));
+        }
+
+        biop = this.parseBinaryOp();
+      }
+
       if (!biop) {
         break;
       }
@@ -329,10 +358,21 @@ export class ParamsParser extends AbstractTokenizer {
 
       node = this.parseToken();
       if (!node) {
-        throw new ParseError(`Expected expression after ${biop}`, {
-          start: this.index,
-          end: this.index,
-        });
+        // If no next node exists and last operation was dot dot, it is an infinite range
+        if (biop === Operators.DOT_DOT) {
+          right = stack.pop();
+
+          if (isAllParamTypes(right)) {
+            stack.push(createUnaryExpression(biop, right, false));
+          }
+
+          break;
+        } else {
+          throw new ParseError(`Expected expression after ${biop}`, {
+            start: this.index,
+            end: this.index,
+          });
+        }
       }
       stack.push(biopInfo, node);
     }
@@ -411,6 +451,15 @@ export class ParamsParser extends AbstractTokenizer {
     }
 
     if (this.charCodeAt(this.index) === ECharCodes.Period) {
+      // if 2 periods in sequence, the number finished and range started
+      if (this.charCodeAt(this.index + 1) === ECharCodes.Period) {
+        return {
+          type: ParamNames.Literal,
+          value: parseFloat(rawName),
+          raw: rawName,
+        };
+      }
+
       // can start with a decimal marker
       rawName += this.charAt(this.index++);
 
@@ -587,6 +636,14 @@ export class ParamsParser extends AbstractTokenizer {
       chI === ECharCodes.OpenBracket ||
       chI === ECharCodes.OpenParenthesis
     ) {
+      // if 2 periods in sequence, the variable finished and range started
+      if (
+        chI === ECharCodes.Period &&
+        this.charCodeAt(this.index + 1) === ECharCodes.Period
+      ) {
+        break;
+      }
+
       this.index++;
       if (chI === ECharCodes.Period) {
         this.parseSpaces();
@@ -601,7 +658,7 @@ export class ParamsParser extends AbstractTokenizer {
           type: ParamNames.MemberExpression,
           computed: true,
           object: node,
-          property: this.parseExpression(),
+          property: this.parseExpressions(ECharCodes.CloseBracket),
         } as MemberExpression;
         this.parseSpaces();
         chI = this.charCodeAt(this.index);
@@ -682,15 +739,14 @@ export class ParamsParser extends AbstractTokenizer {
         break;
       }
 
-      if (ch !== ECharCodes.SingleQuote && ch !== ECharCodes.DoubleQuote) {
+      const key = this.parseExpression();
+
+      if (!key) {
         throw new ParseError(`Invalid character ${String.fromCharCode(ch)}`, {
           start: this.index,
           end: this.index,
         });
       }
-      const key = this.parseStringLiteral();
-
-      this.parseSpaces();
 
       ch = this.charCodeAt(this.index);
       if (ch !== ECharCodes.Colon) {

@@ -81,7 +81,7 @@ export interface UpdateExpression extends Expression {
 }
 
 export interface MapExpressionValues {
-  key: Literal;
+  key: Expression;
   value: AllParamTypes;
 }
 

@@ -7,7 +7,7 @@ export default class FtlNode extends AbstractAssign {
   public params?: Expression[];
 
   constructor(token: Token) {
-    super(NodeTypes.Assign, token);
+    super(NodeTypes.Ftl, token);
     this.params = this.checkParams(token);
   }
 }

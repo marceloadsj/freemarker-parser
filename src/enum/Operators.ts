@@ -70,6 +70,7 @@ export const UnaryOps: Record<string, boolean> = {
   [Operators.MINUS_MINUS]: true,
   [Operators.PLUS_PLUS]: true,
   [Operators.EXISTS]: true,
+  [Operators.DOT_DOT]: true,
 };
 
 /**
@@ -117,6 +118,11 @@ export const BinaryOps: Record<string, number> = {
 
   // Custom
   [Operators.BUILT_IN]: 11,
+  [Operators.DOT_DOT]: 11,
+  [Operators.DOT_DOT_LESS]: 11,
+  [Operators.DOT_DOT_NOT]: 11,
+  [Operators.DOT_DOT_ASTERISK]: 11,
+  [Operators.EXCLAM]: 11,
 } as const;
 
 // Get return the longest key length of any object

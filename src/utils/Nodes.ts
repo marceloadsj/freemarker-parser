@@ -11,6 +11,7 @@ import CommentNode from '../nodes/CommentNode';
 import CompressNode from '../nodes/CompressNode';
 import ConditionNode from '../nodes/ConditionNode';
 import EscapeNode from '../nodes/EscapeNode';
+import FallbackNode from '../nodes/FallbackNode';
 import FlushNode from '../nodes/FlushNode';
 import FtlNode from '../nodes/FtlNode';
 import FunctionNode from '../nodes/FunctionNode';
@@ -27,6 +28,7 @@ import NoAutoEscNode from '../nodes/NoAutoEscNode';
 import NoEscapeNode from '../nodes/NoEscapeNode';
 import NtNode from '../nodes/NtNode';
 import OutputFormatNode from '../nodes/OutputFormatNode';
+import RecoverNode from '../nodes/RecoverNode';
 import ReturnNode from '../nodes/ReturnNode';
 import RtNode from '../nodes/RtNode';
 import SettingNode from '../nodes/SettingNode';
@@ -199,6 +201,12 @@ const Nodes: NodeSelector = {
   },
   [NodeTypes.OutputFormat](token: Token): OutputFormatNode {
     return new OutputFormatNode(token);
+  },
+  [NodeTypes.Fallback](token: Token): FallbackNode {
+    return new FallbackNode(token);
+  },
+  [NodeTypes.Recover](token: Token): RecoverNode {
+    return new RecoverNode(token);
   },
 };
 
